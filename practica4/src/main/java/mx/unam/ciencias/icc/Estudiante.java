@@ -134,7 +134,6 @@ public class Estudiante {
 	return this.nombre.equals(estudiante.nombre) &&
 	       this.cuenta == estudiante.cuenta &&
 	       this.promedio == estudiante.promedio &&
-	       this.edad == estudiante.edad;
-	    
+	       this.edad == estudiante.edad; 
     }
 }

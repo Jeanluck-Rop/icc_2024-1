@@ -263,19 +263,19 @@ public class ListaEstudiante {
     public ListaEstudiante reversa() {
         // Aquí va su código.
 	ListaEstudiante reversa = new ListaEstudiante();
-	Nodo nuevoNodo = cabeza;
-	return reversaRecursiva(reversa, nuevoNodo);
+	Nodo nodo = cabeza;
+	return reversaRecursiva(reversa, nodo);
     }
 
     /**
      * Función auxiliar para obtener la reversa de una lista de manera recursiva.
      */
-    private ListaEstudiante reversaRecursiva(ListaEstudiante reversa, Nodo nuevoNodo) {
-	if (nuevoNodo == null)
+    private ListaEstudiante reversaRecursiva(ListaEstudiante reversa, Nodo nodo) {
+	if (nodo == null)
 	    return reversa;
 	
-	reversa.agregaInicio(nuevoNodo.elemento);
-	return reversaRecursiva(reversa, nuevoNodo.siguiente);
+	reversa.agregaInicio(nodo.elemento);
+	return reversaRecursiva(reversa, nodo.siguiente);
     }
 
     /**
@@ -286,19 +286,19 @@ public class ListaEstudiante {
     public ListaEstudiante copia() {
         // Aquí va su código.
 	ListaEstudiante copia = new ListaEstudiante();
-	Nodo nuevoNodo = cabeza;
-	return copiaRecursiva(copia, nuevoNodo);
+	Nodo nodo = cabeza;
+	return copiaRecursiva(copia, nodo);
     }
 
     /**
      * Función auxiliar para obtener la copia de una lista de manera recursiva.
      */
-    private ListaEstudiante copiaRecursiva(ListaEstudiante copia, Nodo nuevoNodo) {
-	if (nuevoNodo == null)
+    private ListaEstudiante copiaRecursiva(ListaEstudiante copia, Nodo nodo) {
+	if (nodo == null)
 	    return copia;
 	
-	copia.agregaFinal(nuevoNodo.elemento);
-	return copiaRecursiva(copia, nuevoNodo.siguiente);
+	copia.agregaFinal(nodo.elemento);
+	return copiaRecursiva(copia, nodo.siguiente);
     }
 
     /**
@@ -373,21 +373,21 @@ public class ListaEstudiante {
      */
     public int indiceDe(Estudiante elemento) {
         // Aquí va su código.
-	Nodo n = cabeza;
-	return indiceDeRecursiva(elemento, n, 0);
+	Nodo nodo = cabeza;
+	return indiceDeRecursiva(elemento, nodo, 0);
     }
 
     /**
      * Función auxiliar para regresar el índice del elemento recibido de una lista de manera recursiva.
      */
-    private int indiceDeRecursiva(Estudiante elemento, Nodo n, int i){
-	if (n == null)
+    private int indiceDeRecursiva(Estudiante elemento, Nodo nodo, int i){
+	if (nodo == null)
 	    return -1;
 	
-	if (n.elemento.equals(elemento))
+	if (nodo.elemento.equals(elemento))
 	    return i;
 	
-	return indiceDeRecursiva(elemento, n.siguiente, i + 1);
+	return indiceDeRecursiva(elemento, nodo.siguiente, i + 1);
     }
 
     /**
@@ -465,19 +465,19 @@ public class ListaEstudiante {
      * Función auxiliar para buscar un nodo por su elemento.
      */
     private Nodo buscaNodo(Estudiante elemento) {
-	Nodo n = cabeza;
-	return buscaNodoRec(elemento, n);
+	Nodo nodo = cabeza;
+	return buscaNodoRec(elemento, nodo);
     }
 
     /**
      * Función auxiliar para buscar un nodo por su elemento resursivamente.
      */
-    private Nodo buscaNodoRec(Estudiante elemento, Nodo n) {
-	if (n == null)
+    private Nodo buscaNodoRec(Estudiante elemento, Nodo nodo) {
+	if (nodo == null)
 	    return null;
-	else if (n.elemento.equals(elemento))
-	    return n;
+	else if (nodo.elemento.equals(elemento))
+	    return nodo;
 	
-	return buscaNodoRec(elemento, n.siguiente);
+	return buscaNodoRec(elemento, nodo.siguiente);
     }
 }

@@ -95,17 +95,17 @@ public class Lista {
     public void agregaFinal(Object elemento) {
         // Aquí va su código.
 	if (elemento == null)
-	return;
+	    return;
 
-	Nodo newNode = new Nodo(elemento);
+	Nodo nuevoNodo = new Nodo(elemento);
 	longitud ++;
 
-	if (rabo == null) {
-	    cabeza = rabo = newNode;
-	} else {
-	    rabo.siguiente = newNode;
-	    newNode.anterior = rabo;
-	    rabo = newNode;
+	if (rabo == null)
+	    cabeza = rabo = nuevoNodo;
+	else {
+	    rabo.siguiente = nuevoNodo;
+	    nuevoNodo.anterior = rabo;
+	    rabo = nuevoNodo;
 	}
     }
 
@@ -117,18 +117,18 @@ public class Lista {
      */
     public void agregaInicio(Object elemento) {
         // Aquí va su código.
-	if (elemento == null)
-	return;
-
-	Nodo newNode = new Nodo(elemento);
-	longitud ++;
-
-	if (cabeza == null) {
-	    cabeza = rabo = newNode;
-	} else {
-	    newNode.siguiente = cabeza;
-	    cabeza.anterior = newNode;
-	    cabeza = newNode;
+        if (elemento == null)
+	    return;
+	
+	Nodo nuevoNodo = new Nodo(elemento);
+	longitud++;
+	
+	if (cabeza == null)
+	    cabeza = rabo = nuevoNodo;
+	else {
+	    nuevoNodo.siguiente = cabeza;
+	    cabeza.anterior = nuevoNodo;
+	    cabeza = nuevoNodo;
 	}
     }
 
@@ -148,24 +148,21 @@ public class Lista {
      */
     public void inserta(int i, Object elemento) {
         // Aquí va su código.
-	if (elemento == null) {
+        if (elemento == null)
 	    return;
-	}
-
-	if (i <= 0) {
+	
+	if (i <= 0)
 	    agregaInicio(elemento);
-	}
-	  else if (longitud <= i) {
+	else if (longitud <= i)
 	    agregaFinal(elemento);
-	}
-	  else {
-	    Nodo node = buscaNode(get(i));
-	    Nodo newNode = new Nodo(elemento);
-            node.anterior.siguiente = newNode;
-	    newNode.anterior = node.anterior;
-	    node.anterior = newNode;
-	    newNode.siguiente = node;
-	    longitud ++;
+	else {
+	    Nodo n = buscaNodo(get(i)); 
+	    Nodo nuevoNodo = new Nodo(elemento);
+	    n.anterior.siguiente = nuevoNodo;
+	    nuevoNodo.anterior = n.anterior;
+	    n.anterior = nuevoNodo;
+	    nuevoNodo.siguiente = n;
+	    longitud++;
 	}
     }
 
@@ -176,29 +173,25 @@ public class Lista {
      */
     public void elimina(Object elemento) {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return;
-	}
-
-	Nodo deleteNode = buscaNode(elemento);
-	if (deleteNode == null) {
+	
+	Nodo eliminable = buscaNodo(elemento);
+	
+	if (eliminable == null)
 	    return;
-	}
-
-	if (deleteNode == cabeza) {
+	else if (eliminable == cabeza) {
 	    eliminaPrimero();
 	    return;
 	}
-
-	if (deleteNode == rabo) {
+	else if (eliminable == rabo) {
 	    eliminaUltimo();
 	    return;
 	}
-
-	if(deleteNode != cabeza && deleteNode != rabo) {
-	    deleteNode.anterior.siguiente = deleteNode.siguiente;
-	    deleteNode.siguiente.anterior = deleteNode.anterior;
-	    longitud --;
+	else {
+	    eliminable.anterior.siguiente = eliminable.siguiente;
+	    eliminable.siguiente.anterior = eliminable.anterior;
+	    longitud--;
 	}
     }
 
@@ -209,22 +202,20 @@ public class Lista {
      */
     public Object eliminaPrimero() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return null;
+	
+	Object eliminado = getPrimero();
+	
+	if (longitud == 1)
+	    cabeza = rabo = null;
+	else {
+	    cabeza = cabeza.siguiente;
+	    cabeza.anterior = null;
 	}
-	  else {
-	    Object regresa = getPrimero();
-	    if (longitud == 1) {
-		cabeza = rabo = null;
-	    }
-	      else {
-		  cabeza = cabeza.siguiente;
-		  cabeza.anterior = null;
-	    }
-
-	    longitud --;
-	    return regresa;
-	}
+	
+	longitud --;
+	return eliminado;
     }
 
     /**
@@ -234,22 +225,20 @@ public class Lista {
      */
     public Object eliminaUltimo() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return null;
-	}
-	  else {
-	    Object regresa = getUltimo();
-	    if (longitud == 1) {
-		cabeza = rabo = null;
-	    }
-	      else {
-		  rabo = rabo.anterior;
-		  rabo.siguiente = null;
-	    }
+    
+	Object regresa = getUltimo();
 
-	    longitud --;
-	    return regresa;
+	if (longitud == 1)
+	    cabeza = rabo = null;
+	else {
+	    rabo = rabo.anterior;
+	    rabo.siguiente = null;
 	}
+	
+	longitud --;
+	return regresa;
     }
 
     /**
@@ -260,7 +249,7 @@ public class Lista {
      */
     public boolean contiene(Object elemento) {
         // Aquí va su código.
-	return buscaNode(elemento) != null;
+	return buscaNodo(elemento) != null;
     }
 
     /**
@@ -269,18 +258,20 @@ public class Lista {
      */
     public Lista reversa() {
         // Aquí va su código.
-	Lista reverseList = new Lista();
-	Nodo node = cabeza;
-	return recReversa(reverseList, node);
+	Lista reversa = new Lista();
+	Nodo nodo = cabeza;
+	return reversaRecursiva(reversa, nodo);
     }
 
-    private Lista recReversa(Lista list, Nodo node) {
-	if (node == null) {
-	    return list;
-	}
+    /**
+     * Función auxiliar para obtener la reversa de una lista de manera recursiva.
+     */
+    private Lista reversaRecursiva(Lista reversa, Nodo nodo) {
+	if (nodo == null)
+	    return reversa;
 	
-	list.agregaInicio(node.elemento);
-	return recReversa(list, node.siguiente);
+	reversa.agregaInicio(nodo.elemento);
+	return reversaRecursiva(reversa, nodo.siguiente);
     }
 
     /**
@@ -290,18 +281,20 @@ public class Lista {
      */
     public Lista copia() {
         // Aquí va su código.
-	Lista copiedList = new Lista();
-	Nodo node = cabeza;
-	return recCopia(copiedList, node);
+	Lista copia = new Lista();
+	Nodo nodo = cabeza;
+	return copiaRecursiva(copia, nodo);
     }
 
-    private Lista recCopia(Lista list, Nodo node) {
-	if  (node == null) {
-	    return list;
-	}
+    /**
+     * Función auxiliar para obtener la copia de una lista de manera recursiva.
+     */
+    private Lista copiaRecursiva(Lista copia, Nodo nodo) {
+	if (nodo == null)
+	    return copia;
 	
-	list.agregaFinal(node.elemento);
-	return recCopia(list, node.siguiente);
+        copia.agregaFinal(nodo.elemento);
+	return copiaRecursiva(copia, nodo.siguiente);
     }
 
     /**
@@ -309,12 +302,11 @@ public class Lista {
      */
     public void limpia() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return;
-	} else {
-	    cabeza = rabo = null;
-	    longitud = 0;
-        }
+	
+	cabeza = rabo = null;
+	longitud = 0;
     }
 
     /**
@@ -324,10 +316,9 @@ public class Lista {
      */
     public Object getPrimero() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return null;
-	}
-
+	
 	return cabeza.elemento;
     }
 
@@ -338,9 +329,8 @@ public class Lista {
      */
     public Object getUltimo() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return null;
-	}
 
 	return rabo.elemento;
     }
@@ -354,21 +344,22 @@ public class Lista {
      */
     public Object get(int i) {
         // Aquí va su código.
-	if (i < 0 || i >= longitud) {
+	if (i < 0 || i >= longitud)
 	    return null;
-	}
 
-	Nodo node = cabeza;
-	return recGet(node, i, 0);
+	Nodo n = cabeza;
+	return getRecursiva(n, i, 0);
     }
 
-    private Object recGet(Nodo node, int c, int i) {
-	if (i == c) {
-	    return node.elemento;
-	}
-
-	return recGet(node.siguiente, c, i + 1);
-    }
+    /**
+     * Función auxiliar para obtener el i-ésimo elemento de una lista de manera recursiva.
+     */
+    private Object getRecursiva(Nodo n, int i, int j) {
+	if (i == j)
+	    return n.elemento;
+	
+	return getRecursiva(n.siguiente, i, j + 1);
+    } 
 
     /**
      * Regresa el índice del elemento recibido en la lista.
@@ -378,20 +369,21 @@ public class Lista {
      */
     public int indiceDe(Object elemento) {
         // Aquí va su código.}
-	Nodo node = cabeza;
-	return recIndiceDe(elemento, node, 0);
+	Nodo nodo = cabeza;
+	return indiceDeRecursiva(elemento, nodo, 0);
     }
 
-    private int recIndiceDe(Object elemento, Nodo node, int i) {
-	if (node == null) {
+    /**
+     * Función auxiliar para regresar el índice del elemento recibido de una lista de manera recursiva.
+     */
+    private int indiceDeRecursiva(Object elemento, Nodo nodo, int i){
+	if (nodo == null)
 	    return -1;
-	}
-
-	if (node.elemento.equals(elemento)) {
+	
+	if (nodo.elemento.equals(elemento))
 	    return i;
-	}
-
-	return recIndiceDe(elemento, node.siguiente, i + 1);
+	
+	return indiceDeRecursiva(elemento, nodo.siguiente, i + 1);
     }
 
     /**
@@ -400,21 +392,20 @@ public class Lista {
      */
     @Override public String toString() {
         // Aquí va su código.
-	if (esVacia()) {
+	if (esVacia())
 	    return "[]";
-	}
-
+	
 	StringBuffer sb = new StringBuffer();
 	sb.append("[");
-	Nodo node = cabeza;
-	sb.append(node.get());
+	Nodo nodo = cabeza;
+	sb.append(nodo.get());
 	
-	while(node.siguiente != null) {
+	while (nodo.siguiente != null) {
 	    sb.append(", ");
-	    node = node.siguiente;
-	    sb.append(node.get());
+	    nodo = nodo.siguiente;
+	    sb.append(nodo.get());
 	}
-
+	
 	sb.append("]");
 	return sb.toString();
     }
@@ -430,24 +421,21 @@ public class Lista {
             return false;
         Lista lista = (Lista)objeto;
         // Aquí va su código.
-
-	if (this.longitud != lista.longitud) {
+	if (this.longitud != lista.longitud)
 	    return false;
-	}
+	
+	Nodo nodo1 = this.cabeza;
+	Nodo nodo2 = lista.getCabeza();
 
-	Nodo node1 = this.cabeza;
-	Nodo node2 = lista.getCabeza();
-
-	while (node1 != null && node2 != null) {
-	    if (!node1.elemento.equals(node2.get())) {
+	while (nodo1 != null && nodo2 != null) {
+	    if (!nodo1.elemento.equals(nodo2.get()))
 		return false;
-	    }
-
-	    node1 = node1.siguiente;
-	    node2 = node2.getSiguiente();
+	    
+	    nodo1 = nodo1.siguiente;
+	    nodo2 = nodo2.getSiguiente();
 	}
 
-	return node1 == null && node2 == null;
+	return nodo1 == null && nodo2 == null;
     }
 
     /**
@@ -468,17 +456,23 @@ public class Lista {
 	return rabo;
     }
 
-    private Nodo buscaNode(Object elemento) {
-	Nodo node = cabeza;
-	    return recBuscaNode(elemento, node);
+    /**
+     * Función auxiliar para buscar un nodo por su elemento.
+     */
+    private Nodo buscaNodo(Object elemento) {
+	Nodo nodo = cabeza;
+	return buscaNodoRec(elemento, nodo);
     }
 
-    private Nodo recBuscaNode(Object elemento, Nodo node) {
-	if (node == null)
+    /**
+     * Función auxiliar para buscar un nodo por su elemento resursivamente.
+     */
+    private Nodo buscaNodoRec(Object elemento, Nodo nodo) {
+	if (nodo == null)
 	    return null;
-
-	if (node.elemento.equals(elemento))
-	    return node;
-	return recBuscaNode(elemento, node.siguiente);
+	else if (nodo.elemento.equals(elemento))
+	    return nodo;
+	
+	return buscaNodoRec(elemento, nodo.siguiente);
     }
 }

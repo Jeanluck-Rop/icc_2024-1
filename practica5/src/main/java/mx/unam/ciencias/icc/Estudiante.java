@@ -134,9 +134,9 @@ public class Estudiante implements Registro {
         Estudiante estudiante = (Estudiante)objeto;
         // Aquí va su código.
 	return this.nombre.equals(estudiante.nombre) &&
-	    this.cuenta == estudiante.cuenta &&
-	    this.promedio == estudiante.promedio &&
-	    this.edad == estudiante.edad;
+	       this.cuenta == estudiante.cuenta &&
+	       this.promedio == estudiante.promedio &&
+	       this.edad == estudiante.edad;
     }
 
     /**
