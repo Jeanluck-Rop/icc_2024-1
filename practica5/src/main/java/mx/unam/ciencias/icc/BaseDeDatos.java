@@ -127,7 +127,7 @@ public abstract class BaseDeDatos {
     public Lista buscaRegistros(Enum campo, Object valor) {
         // Aquí va su código.
         if (!(campo instanceof CampoEstudiante))
-	    throw new IllegalArgumentException("Campo no válido");
+	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista sublista = new Lista();
 	
@@ -135,10 +135,9 @@ public abstract class BaseDeDatos {
 	    Lista.Nodo nodito = registros.getCabeza();
 	    while (nodito != null) {
 		Registro r = (Registro) nodito.get();
-		if (r != null) {
+		if (r != null)
 		    if (r.casa(campo, valor))
 			sublista.agregaFinal(r);
-		}
 		
 		nodito = nodito.getSiguiente();
 	    }

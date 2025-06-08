@@ -127,9 +127,8 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void guarda(BufferedWriter out) throws IOException {
         // Aquí va su código.
-	for(R r : registros) {
-	    out.write(r.seria());
-	}
+	for (R registro : registros)
+	    out.write(registro.seria());
     }
 
     /**
@@ -175,18 +174,15 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public Lista<R> buscaRegistros(C campo, Object valor) {
         // Aquí va su código.
-	 if (!(campo instanceof CampoEstudiante)) {
-	    throw new IllegalArgumentException("Campo no válido");
-	}
+        if (!(campo instanceof CampoEstudiante))
+	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista<R> l = new Lista<>();
-
-	for (R r : registros) {
-	    if (r != null && r.casa(campo, valor)) {
+	
+	for (R r : registros)
+	    if (r != null && r.casa(campo, valor))
 		l.agregaFinal(r);
-	    }
-	}
-
+	
 	return l;
     }
 
@@ -214,8 +210,11 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	escuchas.elimina(escucha);
     }
 
-    private void alertaEscuchas(EventoBaseDeDatos event, R register, R registro) {
-	for (EscuchaBaseDeDatos<R> s : escuchas)
-	    s.baseDeDatosModificada(event, register, registro);
+    /**
+     * Método auxiliar para alertar a los escuchas de los eventos en los registros.
+     */
+    private void alertaEscuchas(EventoBaseDeDatos evento, R register, R registro) {
+	for (EscuchaBaseDeDatos<R> escucha : escuchas)
+	    escucha.baseDeDatosModificada(evento, register, registro);
     }
 }

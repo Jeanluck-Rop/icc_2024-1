@@ -172,15 +172,14 @@ public class ChanchitoFeliz implements Registro {
      *         es una seriación válida de un chanchito.
      */
     @Override public void deseria(String linea) {
-        if (linea == null) {
-	    throw new ExcepcionLineaInvalida("Esta línea está vacía");
-	}
-
+        if (linea == null)
+	    throw new ExcepcionLineaInvalida("La línea es vacía.");
+	
 	String[] a = linea.trim().split("\t");
-	if (a.length != 5) {
-	    throw new ExcepcionLineaInvalida("Faltan elementos");
-	}
 
+	if (a.length != 5)
+	    throw new ExcepcionLineaInvalida("Faltan elementos.");
+	
 	try {
 	    nombre = a[0];
 	    origen = a[1];
@@ -188,7 +187,7 @@ public class ChanchitoFeliz implements Registro {
 	    edad = Integer.parseInt(a[3]);
 	    felicidad = Double.parseDouble(a[4]);
 	} catch (NumberFormatException e) {
-	    throw new ExcepcionLineaInvalida("Error, los datos no son inválidos");
+	    throw new ExcepcionLineaInvalida("Error, datos inválidos.");
 	}
     }
 
@@ -220,56 +219,53 @@ public class ChanchitoFeliz implements Registro {
      *         CampoChanchito}.
      */
     @Override public boolean casa(Enum campo, Object valor) {
-        if (!(campo instanceof CampoChanchito)) {
-	    throw new IllegalArgumentException("No es instancia de CampoChanchito");
-	}
-
+        if (!(campo instanceof CampoChanchito))
+	    throw new IllegalArgumentException("El campo no es instancia de CampoChanchito.");
+	
 	CampoChanchito campoChanchito = (CampoChanchito) campo;
 
 	switch (campoChanchito) {
 	case NOMBRE:
 	    if (valor instanceof String) {
-		String valorCad = (String) valor;
+		String valString = (String) valor;
 		String name = getNombre();
-		if (valorCad.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
-		return name.contains(valorCad);
+		return name.contains(valString);
 	    }
 	    break;
 
 	case ORIGEN:
 	    if (valor instanceof String) {
-		String valorCadena = (String) valor;
+		String valString = (String) valor;
 		String orgn = getOrigen();
-		if (valorCadena.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
-		return orgn.contains(valorCadena);
+		return orgn.contains(valString);
 	    }
 	    break;
 
 	case PESO:
 	    if (valor instanceof Double) {
 		Double weight = getPeso();
-		Double valorDou = (Double) valor;
-		return valorDou <= weight;
+		Double valDouble = (Double) valor;
+		return valDouble <= weight;
 	    }
 	    break;
 
 	case EDAD:
 	    if (valor instanceof Integer) {
 		Integer age = getEdad();
-		Integer valorInt = (Integer) valor;
-		return valorInt <= age;
+		Integer valInt = (Integer) valor;
+		return valInt <= age;
 	    }
 	    break;
 	    
 	case FELICIDAD:
 	     if (valor instanceof Double) {
 		Double happy = getFelicidad();
-		Double valDoub = (Double) valor;
-		return valDoub <= happy;
+		Double valDouble = (Double) valor;
+		return valDouble <= happy;
 	    }
 	    break;
 	}

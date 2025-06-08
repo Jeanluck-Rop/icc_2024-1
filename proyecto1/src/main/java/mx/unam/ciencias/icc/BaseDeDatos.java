@@ -79,6 +79,7 @@ public abstract class BaseDeDatos {
 	    out.write(r.seria());
 	    n = n.getSiguiente();
 	}
+	
 	out.close();
     }
 
@@ -100,8 +101,10 @@ public abstract class BaseDeDatos {
 	    } catch (ExcepcionLineaInvalida eli) {
 		break;
 	    }
+	    
 	    agregaRegistro(r);
 	}
+	
 	in.close();
     }
 
@@ -115,23 +118,19 @@ public abstract class BaseDeDatos {
      *         correcta.
      */
     public Lista buscaRegistros(Enum campo, Object valor) {
-        if (!(campo instanceof CampoChanchito)) {
-	    throw new IllegalArgumentException("Campo no válido");
-	}
+        if (!(campo instanceof CampoChanchito))
+	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista sublista = new Lista();
-
+	
 	if (!registros.esVacia()) {
 	    Lista.Nodo n = registros.getCabeza();
 	    while (n != null) {
 		Registro r = (Registro) n.get();
-
-		if (r != null)  {
-		    if (r.casa(campo, valor)) {
-		    sublista.agregaFinal(r);
-		    }
-		}
-
+		if (r != null)
+		    if (r.casa(campo, valor))
+			sublista.agregaFinal(r);
+		
 		n = n.getSiguiente();
 	    }
 	}

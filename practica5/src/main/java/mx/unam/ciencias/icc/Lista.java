@@ -364,7 +364,7 @@ public class Lista {
 	    return n.elemento;
 	
 	return getRecursiva(n.siguiente, i, j + 1);
-    } 
+    }
 
     /**
      * Regresa el índice del elemento recibido en la lista.
@@ -426,18 +426,16 @@ public class Lista {
             return false;
         Lista lista = (Lista)objeto;
         // Aquí va su código.
-	if (this.longitud != lista.longitud) {
+	if (this.longitud != lista.longitud)
 	    return false;
-	}
-
+	
 	Nodo node1 = this.cabeza;
 	Nodo node2 = lista.getCabeza();
 
 	while (node1 != null && node2 != null) {
-	    if (!node1.elemento.equals(node2.get())) {
+	    if (!node1.elemento.equals(node2.get()))
 		return false;
-	    }
-
+	    
 	    node1 = node1.siguiente;
 	    node2 = node2.getSiguiente();
 	}

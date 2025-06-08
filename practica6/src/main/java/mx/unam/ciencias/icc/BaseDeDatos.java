@@ -74,7 +74,6 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
     public void limpia() {
         // Aquí va su código.
 	registros.limpia();
-
     }
 
     /**
@@ -105,11 +104,10 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
     public void carga(BufferedReader in) throws IOException {
         // Aquí va su código.
 	registros.limpia();
-
 	String c;
+	
 	while ((c = in.readLine()) != null) {
 	    R r = creaRegistro();
-	    
 	    try {
 		r.deseria(c);
 	    } catch (ExcepcionLineaInvalida eli) {
@@ -118,7 +116,7 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	    
 	    agregaRegistro(r);
 	}
-
+	
 	in.close();
     }
 
@@ -133,9 +131,8 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public Lista<R> buscaRegistros(C campo, Object valor) {
         // Aquí va su código.
-	if (!(campo instanceof CampoEstudiante)) {
-	    throw new IllegalArgumentException("Campo no válido");
-	}
+	if (!(campo instanceof CampoEstudiante))
+	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista<R> l = new Lista<>();
 	
@@ -143,12 +140,9 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	    Lista<R>.Nodo n = registros.getCabeza();
 	    while (n != null) {
 		R r = n.get();
-		
-		if (r != null) {
-		    if (r.casa(campo, valor)) {
-		    l.agregaFinal(r);
-		    }
-		}
+		if (r != null)
+		    if (r.casa(campo, valor))
+			l.agregaFinal(r);
 		
 		n = n.getSiguiente();
 	    }

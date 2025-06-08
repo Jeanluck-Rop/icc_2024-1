@@ -161,7 +161,7 @@ public class Estudiante implements Registro {
     @Override public void deseria(String linea) {
         // Aquí va su código.
 	if (linea == null)
-	    throw new ExcepcionLineaInvalida("La línea es vacía");
+	    throw new ExcepcionLineaInvalida("La línea es vacía.");
 	
 	String[] a = linea.trim().split("\t");
 	

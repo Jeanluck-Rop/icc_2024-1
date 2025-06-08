@@ -22,11 +22,16 @@ public enum CampoEstudiante {
     @Override public String toString() {
         // Aquí va su código.
 	switch (this) {
-	case NOMBRE:   return "Nombre";
-	case CUENTA:   return "# Cuenta";
-	case PROMEDIO: return "Promedio";
-	case EDAD:     return "Edad";
-	default:       return "";
+	case NOMBRE:
+	     return "Nombre";
+	case CUENTA:
+	     return "# Cuenta";
+	case PROMEDIO:
+	     return "Promedio";
+	case EDAD:
+	     return "Edad";
+	default:
+	     return "";
 	}
     }
 }

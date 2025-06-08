@@ -1,7 +1,7 @@
 package mx.unam.ciencias.icc;
 
 /**
- * Práctica 5: Excepciones, entrada/salida y enumeraciones.
+ * Proyecto 1: Excepciones, entrada/salida y enumeraciones.
  */
 public class Proyecto1 {
 
