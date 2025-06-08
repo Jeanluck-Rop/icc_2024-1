@@ -160,22 +160,21 @@ public class Estudiante implements Registro {
      */
     @Override public void deseria(String linea) {
         // Aquí va su código.
-	if (linea == null) {
-	    throw new ExcepcionLineaInvalida("Esta línea está vacía");
-	}
-
+	if (linea == null)
+	    throw new ExcepcionLineaInvalida("La línea es vacía");
+	
 	String[] a = linea.trim().split("\t");
-	if (a.length  != 4) {
-	    throw new ExcepcionLineaInvalida("Faltan elementos");
-	}
-
+	
+	if (a.length != 4)
+	    throw new ExcepcionLineaInvalida("Faltan elementos.");
+	
 	try {
 	    nombre = a[0];
 	    cuenta = Integer.parseInt(a[1]);
 	    promedio = Double.parseDouble(a[2]);
 	    edad = Integer.parseInt(a[3]);
 	} catch (Exception e) {
-	   throw new ExcepcionLineaInvalida("Error, datos inválidos");
+	    throw new ExcepcionLineaInvalida("Error, datos inválidos.");
 	}
     }
 
@@ -207,10 +206,9 @@ public class Estudiante implements Registro {
      */
     @Override public boolean casa(Enum campo, Object valor) {
         // Aquí va su código.
-	if (!(campo instanceof CampoEstudiante)) {
-	    throw new IllegalArgumentException("No es instancia de CampoEstudiante");
-	}
-
+	if (!(campo instanceof CampoEstudiante))
+	    throw new IllegalArgumentException("El campo no es instancia de CampoEstudiante.");
+	
 	CampoEstudiante campoEstudiante = (CampoEstudiante) campo;
 
 	switch (campoEstudiante) {
@@ -218,9 +216,8 @@ public class Estudiante implements Registro {
 	    if (valor instanceof String) {
 		String valString = (String) valor;
 		String nomb = getNombre();
-		if (valString.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
 		return nomb.contains(valString);
 	    }	    
 	    break;

@@ -228,7 +228,7 @@ public class Lista {
 	if (esVacia())
 	    return null;
     
-	Object regresa = getUltimo();
+	Object eliminado = getUltimo();
 
 	if (longitud == 1)
 	    cabeza = rabo = null;
@@ -238,7 +238,7 @@ public class Lista {
 	}
 	
 	longitud --;
-	return regresa;
+	return eliminado;
     }
 
     /**
