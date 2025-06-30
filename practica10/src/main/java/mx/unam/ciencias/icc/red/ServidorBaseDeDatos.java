@@ -64,24 +64,20 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
         // Aquí va su código.
 	this.continuaEjecucion = true;
 	anotaMensaje("Escuchando en el puerto: %d.", this.puerto);
-
 	while (this.continuaEjecucion) {
 	    try {
 		Socket enchufe = this.servidor.accept();
 		Conexion<R> conexion = new Conexion<>(this.bdd, enchufe);
-
 		anotaMensaje("Conexión recibida de: %s.", enchufe.getInetAddress().getCanonicalHostName());
 		anotaMensaje("Serie de conexión: %d.", conexion.getSerie());
 	      	conexion.agregaEscucha((c, u) -> mensajeRecibido(c, u));
-
 		new Thread(() -> conexion.recibeMensajes()).start();
 		synchronized (conexiones) {
 		    conexiones.agregaFinal(conexion);
 		}	
 	    } catch (IOException e) {
-		if (this.continuaEjecucion) {
+		if (this.continuaEjecucion)
 		    anotaMensaje("Error al recibir una conexión...");
-		}
 	    }
 	}
 	anotaMensaje("La ejecución del servidor ha terminado.");
@@ -109,12 +105,9 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
         // Aquí va su código.
 	try {
 	    anotaMensaje("Cargando base de datos de %s.\n", ruta);
-	    
 	    BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(ruta)));
-	    
 	    bdd.carga(in);
 	    in.close();
-	    
 	    anotaMensaje("Base de datos cargada exitosamente de %s.\n", ruta);
 	} catch (IOException e) {
 	    e.printStackTrace();
@@ -127,11 +120,9 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
     private synchronized void guarda() {
         // Aquí va su código.
 	anotaMensaje("Guardando base de datos en %s.", ruta);
-
 	try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ruta)))) {
-	    
 	    synchronized (bdd) {
-	    bdd.guarda(out);
+		bdd.guarda(out);
 	    }
 	    out.close();
 	    anotaMensaje("Base de datos guardada.");
@@ -143,43 +134,34 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
     /* Recibe los mensajes de la conexión. */
     private void mensajeRecibido(Conexion<R> conexion, Mensaje mensaje) {
         // Aquí va su código.
-	if (!conexion.isActiva() || continuaEjecucion == false) {
+	if (!conexion.isActiva() || continuaEjecucion == false)
 	    return;
-	}
-	
+
 	switch (mensaje) {
 	case BASE_DE_DATOS:
 	    baseDeDatos(conexion);
 	    break;
-	    
 	case REGISTRO_AGREGADO:
 	    registroAlterado(conexion, Mensaje.REGISTRO_AGREGADO);
 	    break;
-	    
 	case REGISTRO_ELIMINADO:
 	    registroAlterado(conexion, Mensaje.REGISTRO_ELIMINADO);
 	    break;
-	    
 	case REGISTRO_MODIFICADO:
 	    registroModificado(conexion);
-	    break;
-	    
+	    break;    
 	case DESCONECTAR:
 	    desconectar(conexion);
-	    break;
-	    
+	    break;	    
 	case GUARDA:
 	    guarda();
 	    break;
-	    
 	case DETENER_SERVICIO:
 	    detenerServicio();
-	    break;
-	    
+	    break;	    
 	case ECO:
 	    eco(conexion);
-	    break;
-	    
+	    break;	    
 	default:
 	    error(conexion, "Mensaje inválido.");
 	    break;
@@ -196,7 +178,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
 	    e.printStackTrace();
 	    error(conexion, "Error enviando la base de datos.");
 	}
-	
 	anotaMensaje("Base de datos pedida por %d.", conexion.getSerie());
     }
 
@@ -205,7 +186,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
         // Aquí va su código.
 	try {
 	    R registro = conexion.recibeRegistro();
-	    
 	    switch (mensaje) {
             case REGISTRO_AGREGADO:
                 bdd.agregaRegistro(registro);
@@ -214,11 +194,9 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
                 bdd.eliminaRegistro(registro);
                 break;
 	    }
-	    
 	    for (Conexion<R> otra : conexiones) {
 		if (otra == conexion)
 		    continue;
-		
 		try {
 		    otra.enviaMensaje(mensaje);
 		    otra.enviaRegistro(registro);
@@ -235,7 +213,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
 	    anotaMensaje("Registro agregado por %d.", conexion.getSerie());
 	else
 	    anotaMensaje("Registro eliminado por %d.", conexion.getSerie());
-
 	guarda();
     }
 
@@ -246,7 +223,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
 	    R registro1 = conexion.recibeRegistro();
 	    R registro2 = conexion.recibeRegistro();
 	    modificaRegistro(registro1, registro2);
-
 	    for (Conexion<R> otra : conexiones) {
 		if (otra == conexion)
 		    continue;
@@ -262,7 +238,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
 	    error(conexion, "Error recibiendo registro.");
 	    return;
 	}
-
 	anotaMensaje("Registro modificado por %d.", conexion.getSerie());
 	guarda();
     }
@@ -278,12 +253,9 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
     private void detenerServicio() {
         // Aquí va su código.
 	anotaMensaje("Solicitud para detener el servicio.");
-
 	continuaEjecucion = false;
-
 	for (Conexion<R> otra : conexiones)
 	    desconecta(otra);
-
 	try {
 	    servidor.close();
 	} catch (IOException e) {}
@@ -293,7 +265,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
     private void eco(Conexion<R> conexion) {
         // Aquí va su código.
 	anotaMensaje("Solicitud de eco de %d.", conexion.getSerie());
-
 	try {
 	    conexion.enviaMensaje(Mensaje.ECO);
 	} catch (IOException e) {
@@ -315,7 +286,6 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
 	synchronized (conexiones) {
 	    conexiones.elimina(conexion);
 	}
-	
 	anotaMensaje(String.format("La conexión %d ha sido desconectada.", conexion.getSerie()));
     }
 
@@ -340,9 +310,8 @@ public abstract class ServidorBaseDeDatos<R extends Registro<R, ?>> {
     /* Procesa los mensajes de todos los escuchas. */
     private void anotaMensaje(String formato, Object ... argumentos) {
         // Aquí va su código.
-	for(EscuchaServidor escucha : escuchas) {
+	for(EscuchaServidor escucha : escuchas)
 	    escucha.procesaMensaje(formato, argumentos);
-	}
     }
 
     /**

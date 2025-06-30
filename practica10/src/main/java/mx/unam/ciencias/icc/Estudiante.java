@@ -202,23 +202,19 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     @Override public void deseria(String linea) {
         // Aquí va su código.
-	if (linea == null) {
-	    throw new ExcepcionLineaInvalida("Esta línea está vacía");
-	}
+	if (linea == null)
+	    throw new ExcepcionLineaInvalida("La línea está vacía.");
 	
 	String[] a = linea.trim().split("\t");
-
-	if (a.length  != 4) {
-	    throw new ExcepcionLineaInvalida("Faltan elementos");
-	}
-	
+	if (a.length  != 4)
+	    throw new ExcepcionLineaInvalida("Faltan elementos.");
 	try {
 	    nombre.set(a[0]);
 	    cuenta.set(Integer.parseInt(a[1]));
 	    promedio.set(Double.parseDouble(a[2]));
 	    edad.set(Integer.parseInt(a[3]));
 	} catch (Exception e) {
-	   throw new ExcepcionLineaInvalida("Error, datos inválidos");
+	    throw new ExcepcionLineaInvalida("Error, datos inválidos.");
 	}
     }
 
@@ -229,10 +225,9 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     public void actualiza(Estudiante estudiante) {
         // Aquí va su código.
-	if (estudiante == null) {
-	    throw new IllegalArgumentException("Este Estudiante no existe");
-	}
-
+	if (estudiante == null)
+	    throw new IllegalArgumentException("El Estudiante no existe.");
+       
 	this.nombre.set(estudiante.getNombre());
 	this.cuenta.set(estudiante.getCuenta());
 	this.promedio.set(estudiante.getPromedio());
@@ -266,20 +261,18 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     @Override public boolean casa(CampoEstudiante campo, Object valor) {
         // Aquí va su código.
-	if (!(campo instanceof CampoEstudiante)) {
-	    throw new IllegalArgumentException("No es instancia de CampoEstudiante");
-	}
-
+	if (!(campo instanceof CampoEstudiante))
+	    throw new IllegalArgumentException("El campo no es instancia de CampoEstudiante.");
+	
 	CampoEstudiante campoEstudiante = (CampoEstudiante) campo;
-
+	
 	switch (campoEstudiante) {
 	case NOMBRE:
 	    if (valor instanceof String) {
 		String valString = (String) valor;
 		String nomb = getNombre();
-		if (valString.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
 		return nomb.contains(valString);
 	    }	    
 	    break;

@@ -78,7 +78,7 @@ public class Lista<T> implements Iterable<T> {
         @Override public T previous() {
             // Aquí va su código.
 	    if (!hasPrevious()) 
-	        throw new NoSuchElementException("No hay elementos anteriores");
+	        throw new NoSuchElementException("No hay elementos anteriores.");
        
 	    Nodo n = anterior;
 	    siguiente = n;
@@ -514,17 +514,16 @@ public class Lista<T> implements Iterable<T> {
     /**
      * Método auxiliar para ordenar una lista con el algoritmo MergeSort
      */
-    private Lista<T> mergeSort(Lista<T> f, Comparator<T> c) {
-	if(f.esVacia() || f.getLongitud() == 1)
-	    return f;
+    private Lista<T> mergeSort(Lista<T> l, Comparator<T> c) {
+	if(l.esVacia() || l.getLongitud() == 1)
+	    return l;
 	
-	int m = f.getLongitud() / 2;
-	Lista<T> a = new Lista<T>();
-
+	int m = l.getLongitud() / 2;
+	Lista<T> f = new Lista<T>();
 	for(int i = 0; i < m; i++)
-	    a.agregaFinal(f.eliminaPrimero());
+	    f.agregaFinal(l.eliminaPrimero());
 	
-	return merge(a.mergeSort(c), f.mergeSort(c), c);
+	return merge(f.mergeSort(c), l.mergeSort(c), c);
     }
 
     /**
@@ -533,10 +532,9 @@ public class Lista<T> implements Iterable<T> {
     private Lista<T> merge(Lista<T> a, Lista<T> b, Comparator<T> c) {
 	Lista<T> l = new Lista<T>();
 
-	while(a.cabeza != null && b.cabeza != null) {
+	while (a.cabeza != null && b.cabeza != null) {
 	    int i = c.compare(a.cabeza.elemento, b.cabeza.elemento);
-
-	    if(i <= 0)
+	    if (i <= 0)
 		l.agregaFinal(a.eliminaPrimero());
 	    else 
 		l.agregaFinal(b.eliminaPrimero());
@@ -544,7 +542,6 @@ public class Lista<T> implements Iterable<T> {
 	
 	while (a.cabeza != null)
 	    l.agregaFinal(a.eliminaPrimero());
-	
 	while (b.cabeza != null) 
 	    l.agregaFinal(b.eliminaPrimero());
 	
@@ -579,9 +576,6 @@ public class Lista<T> implements Iterable<T> {
 	while (n != null) {
 	    if(comparador.compare(elemento, n.elemento) == 0)
 		return true;
-	    else if (comparador.compare(elemento, n.elemento) < 0)
-		return false;
-	    
 	    n = n.siguiente;
 	}
 	

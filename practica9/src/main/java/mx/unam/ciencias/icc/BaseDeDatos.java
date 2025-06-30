@@ -95,16 +95,13 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void modificaRegistro(R registro1, R registro2) {
         // Aquí va su código.
-	if (registro1 == null || registro2 == null) {
-	    throw new IllegalArgumentException("No hay registros que agregar");
-	}
+	if (registro1 == null || registro2 == null)
+	    throw new IllegalArgumentException("No hay registros que agregar.");
 
-	if (!registros.contiene(registro1)) {
+	if (!registros.contiene(registro1))
 	    return;
-	}
-
-	int index = registros.indiceDe(registro1);
-	registro1 = registros.get(index);
+	int i = registros.indiceDe(registro1);
+	registro1 = registros.get(i);
 	alertaEscuchas(EventoBaseDeDatos.REGISTRO_MODIFICADO, registro1, registro2);	
 	registro1.actualiza(registro2);
     }
@@ -127,6 +124,8 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void guarda(BufferedWriter out) throws IOException {
         // Aquí va su código.
+	if (out == null)
+	    return;
 	for (R registro : registros)
 	    out.write(registro.seria());
     }
@@ -144,22 +143,21 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void carga(BufferedReader in) throws IOException {
         // Aquí va su código.
+	if (in == null)
+	    return;
+	
 	registros.limpia();
 	alertaEscuchas(EventoBaseDeDatos.BASE_LIMPIADA, null, null);
-
 	String c;
 	while ((c = in.readLine()) != null) {
 	    R r = creaRegistro();
-	    
 	    try {
 		r.deseria(c);
 	    } catch (ExcepcionLineaInvalida eli) {
 		break;
 	    }
-	    
 	    agregaRegistro(r);
 	}
-
 	in.close();
     }
 
@@ -178,11 +176,9 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista<R> l = new Lista<>();
-	
 	for (R r : registros)
 	    if (r != null && r.casa(campo, valor))
 		l.agregaFinal(r);
-	
 	return l;
     }
 

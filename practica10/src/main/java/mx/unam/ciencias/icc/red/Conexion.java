@@ -67,21 +67,17 @@ public class Conexion<R extends Registro<R, ?>> {
 	    String linea;
 	    while((linea = in.readLine()) != null) {
 		Mensaje message = Mensaje.getMensaje(linea);
-		for (EscuchaConexion<R> escucha : this.escuchas) {
+		for (EscuchaConexion<R> escucha : this.escuchas)
 		    escucha.mensajeRecibido(this, message);
-		}
 	    }
-	    
 	    this.activa = false;
 	} catch (IOException e) {
-	    for (EscuchaConexion<R> escucha : this.escuchas) {
+	    for (EscuchaConexion<R> escucha : this.escuchas)
 		escucha.mensajeRecibido(this, Mensaje.INVALIDO);
-	    }
 	}
 	
-	for (EscuchaConexion<R> escucha : this.escuchas) {
-		escucha.mensajeRecibido(this, Mensaje.DESCONECTAR);
-	    }
+	for (EscuchaConexion<R> escucha : this.escuchas)
+	    escucha.mensajeRecibido(this, Mensaje.DESCONECTAR);
     }
 
     /**
@@ -158,8 +154,7 @@ public class Conexion<R extends Registro<R, ?>> {
 	this.activa = false;
 	try {
 	    this.enchufe.close();
-	} catch (IOException e) {
-	}
+	} catch (IOException e) {}
     }
 
     /**
