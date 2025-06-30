@@ -23,12 +23,18 @@ public enum CampoChanchito {
      */
     @Override public String toString() {
 	switch (this) {
-	case NOMBRE:    return "Nombre";
-	case ORIGEN:    return "Origen";
-	case PESO:      return "Peso";
-	case EDAD:      return "Edad";
-	case FELICIDAD: return "Felicidad";
-	default:       return "";
+	case NOMBRE:
+	    return "Nombre";
+	case ORIGEN:
+	    return "Origen";
+	case PESO:
+	    return "Peso";
+	case EDAD:
+	    return "Edad";
+	case FELICIDAD:
+	    return "Felicidad";
+	default:
+	    return "";
 	}
     }
 }

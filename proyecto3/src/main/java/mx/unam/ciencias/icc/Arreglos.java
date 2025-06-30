@@ -31,11 +31,10 @@ public class Arreglos {
 	for (int i = 0; i < arreglo.length; i++) {
 	    int m = i;
 	    
-	    for (int j = i + 1; j < arreglo.length; j++) {
+	    for (int j = i + 1; j < arreglo.length; j++)
 		if (comparador.compare(arreglo[j], arreglo[m]) < 0)
 		    m = j;
-	    }
-	    
+
 	    swap(arreglo, i, m);
 	}
     }
@@ -60,10 +59,14 @@ public class Arreglos {
     quickSort(T[] arreglo, Comparator<T> comparador) {
 	quickSort(arreglo, comparador, 0, arreglo.length-1);
     }
-    
+
+    /**
+     * Método auxiliar para ordenar el arrelgo recibido usando el algoritmo QuickSort.
+     */
     private  static <T> void quickSort(T[] arreglo, Comparator<T> comparador, int a, int b) {
 	if (b <= a)
 	    return;
+	
 	int i = a + 1;
 	int j = b;
 	
@@ -72,15 +75,15 @@ public class Arreglos {
 		swap(arreglo, i, j);
 		i = i + 1;
 		j = j - 1;
-	    } else if (comparador.compare(arreglo[i], arreglo[a]) <= 0) {
+	    } else if (comparador.compare(arreglo[i], arreglo[a]) <= 0)
 		i = i + 1;
-	    } else {
+	    else
 		j = j - 1;
-	    }
 	}
 	
 	if (comparador.compare(arreglo[i], arreglo[a]) > 0)
 	    i = i - 1;
+	
 	swap(arreglo, a, i);
 	quickSort(arreglo, comparador, a, i - 1);
 	quickSort(arreglo, comparador, i + 1, b);
@@ -115,23 +118,23 @@ public class Arreglos {
 
 	while (a <= b) {
 	    int m = (a + b)/2;
-	    
-	    if (comparador.compare(elemento, arreglo[m]) == 0) {
+	    if (comparador.compare(elemento, arreglo[m]) == 0)
 		return m;
-	    } else if (comparador.compare(elemento, arreglo[m]) < 0) {
+	    else if (comparador.compare(elemento, arreglo[m]) < 0)
 		b = m - 1;
-	    } else {
+	    else
 		a = m + 1;
-	    }
 	}
 	
 	return -1;
     }
-    
+
+    /**
+     * Método auxiliar para intercambiar dos elementos en un arreglo.
+     */
     private static <T> void swap(T[] array, int i, int j) {
-	if (array == null) {
+	if (array == null)
             throw new IllegalArgumentException("No se puede hacer el trueque.");
-        }
 	
         T t = array[i];
         array[i] = array[j];

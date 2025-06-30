@@ -78,7 +78,6 @@ public enum Mensaje {
         // Aquí va su código.
 	if (mensaje.startsWith(PREFIJO)) {
 	    String noPrefijo = mensaje.substring(PREFIJO.length());
-	    
 	    switch (noPrefijo) {
 	    case "BASE_DE_DATOS":
 		return BASE_DE_DATOS;
@@ -96,14 +95,11 @@ public enum Mensaje {
                 return DETENER_SERVICIO;
 	    case "ECO":
                 return ECO;
-
 	    default:
                 return INVALIDO;
 	    }
-	    
-	} else {
+	} else
 	    return INVALIDO;
-	}
     }
     
     /**

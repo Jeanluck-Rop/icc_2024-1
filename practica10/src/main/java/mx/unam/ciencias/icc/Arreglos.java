@@ -122,7 +122,6 @@ public class Arreglos {
 
 	while (a <= b) {
 	    int m = (a + b)/2;
-	    
 	    if (comparador.compare(elemento, arreglo[m]) == 0)
 		return m;
 	    else if (comparador.compare(elemento, arreglo[m]) < 0)

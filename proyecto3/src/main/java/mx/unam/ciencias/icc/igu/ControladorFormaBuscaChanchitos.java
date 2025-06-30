@@ -82,12 +82,18 @@ public class ControladorFormaBuscaChanchitos
     public Object getValor() {
         switch (opcionesCampo.getValue()) {
             // Aquí va su código.
-	case NOMBRE:    return entradaValor.getText();
-	case ORIGEN:    return entradaValor.getText();
-	case PESO:      return Double.parseDouble(entradaValor.getText());
-	case EDAD:      return Integer.parseInt(entradaValor.getText());
-	case FELICIDAD: return Double.parseDouble(entradaValor.getText());
-	default:        return entradaValor.getText(); // No puede ocurrir.
+	case NOMBRE:
+	    return entradaValor.getText();
+	case ORIGEN:
+	    return entradaValor.getText();
+	case PESO:
+	    return Double.parseDouble(entradaValor.getText());
+	case EDAD:
+	    return Integer.parseInt(entradaValor.getText());
+	case FELICIDAD:
+	    return Double.parseDouble(entradaValor.getText());
+	default:
+	    return entradaValor.getText(); // No puede ocurrir.
         }
     }
 

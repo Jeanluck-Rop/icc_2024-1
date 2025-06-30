@@ -219,16 +219,12 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
      *         es una seriación válida de un chanchito.
      */
     @Override public void deseria(String linea) {
-	if (linea == null) {
-	    throw new ExcepcionLineaInvalida("Esta línea está vacía.");
-	}
+	if (linea == null)
+	    throw new ExcepcionLineaInvalida("La línea está vacía.");
 	
 	String[] a = linea.trim().split("\t");
-
-	if (a.length  != 5) {
+	if (a.length  != 5)
 	    throw new ExcepcionLineaInvalida("Faltan elementos.");
-	}
-	
 	try {
 	    nombre.set(a[0]);
 	    origen.set(a[1]);
@@ -236,7 +232,7 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
 	    edad.set(Integer.parseInt(a[3]));
 	    felicidad.set(Double.parseDouble(a[4]));
 	} catch (NumberFormatException e) {
-	   throw new ExcepcionLineaInvalida("Error, datos inválidos.");
+	    throw new ExcepcionLineaInvalida("Error, datos inválidos.");
 	}
     }
 
@@ -246,9 +242,8 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
      * @throws IllegalArgumentException si el chanchito es <code>null</code>.
      */
     public void actualiza(ChanchitoFeliz chanchito) {
-	if (chanchito == null) {
+	if (chanchito == null)
 	    throw new IllegalArgumentException("Este Chanchito no existe.");
-	}
 
 	this.nombre.set(chanchito.getNombre());
 	this.origen.set(chanchito.getOrigen());
@@ -287,35 +282,29 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
      * @throws IllegalArgumentException si el campo es <code>null</code>.
      */
     @Override public boolean casa(CampoChanchito campo, Object valor) { 
-	if (!(campo instanceof CampoChanchito)) {
-	    throw new IllegalArgumentException("No es instancia de CampoChanchito");
-	}
-
+	if (!(campo instanceof CampoChanchito))
+	    throw new IllegalArgumentException("El campo no es instancia de CampoChanchito");
+	
 	CampoChanchito campoChanchito = (CampoChanchito) campo;
-
 	switch (campoChanchito) {
 	case NOMBRE:
 	    if (valor instanceof String) {
 		String valString = (String) valor;
 		String name = getNombre();
-		if (valString.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
 		return name.contains(valString);
 	    }	    
 	    break;
-	    
 	case ORIGEN:
 	    if (valor instanceof String) {
 		String valString = (String) valor;
 		String origen = getOrigen();
-		if (valString.equals("")) {
+		if (valString.equals(""))
 		    return false;
-		}
 		return origen.contains(valString);
 	    }
 	    break;
-	    
 	case PESO:
 	    if (valor instanceof Double) {
 		Double peso = getPeso();
@@ -323,7 +312,6 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
 		return valDouble <= peso;
 	    }	   
 	    break;
-	    
 	case EDAD:
 	    if (valor instanceof Integer) {
 		Integer edad = getEdad();
@@ -331,7 +319,6 @@ public class ChanchitoFeliz implements Registro<ChanchitoFeliz, CampoChanchito> 
 		return valInteger <= edad;
 	    }	    
 	    break;
-	    
 	case FELICIDAD:
 	    if (valor instanceof Double) {
 		Double feliz = getFelicidad();

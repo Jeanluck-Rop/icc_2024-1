@@ -91,14 +91,12 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void modificaRegistro(R registro1, R registro2) {
 	if (registro1 == null || registro2 == null)
-	    throw new IllegalArgumentException("No hay registros que agregar");
+	    throw new IllegalArgumentException("No hay registros que agregar.");
 	
-	if (!registros.contiene(registro1)) {
+	if (!registros.contiene(registro1))
 	    return;
-	}
-	
-	int index = registros.indiceDe(registro1);
-	registro1 = registros.get(index);
+	int i = registros.indiceDe(registro1);
+	registro1 = registros.get(i);
 	alertaEscuchas(EventoBaseDeDatos.REGISTRO_MODIFICADO, registro1, registro2);	
 	registro1.actualiza(registro2);
     }
@@ -119,13 +117,10 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      * @throws IOException si ocurre un error de entrada/salida.
      */
     public void guarda(BufferedWriter out) throws IOException {
-	 if (out == null) {
-	     return;
-	 }
-	 
-	 for (R r: registros)  {
-	     out.write(r.seria());
-	 }
+	if (out == null)
+	    return;
+	for (R r: registros)
+	    out.write(r.seria());
     }
 
     /**
@@ -140,11 +135,11 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      * @throws IOException si ocurre un error de entrada/salida.
      */
     public void carga(BufferedReader in) throws IOException {
-	if (in == null) {
+	if (in == null)
 	    return;
-	}
 	
-	limpia();
+	registros.limpia();
+	alertaEscuchas(EventoBaseDeDatos.BASE_LIMPIADA, null, null);
 	String c;
 	while((c = in.readLine()) != null) {
 	    R r = creaRegistro();
@@ -155,7 +150,7 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	    	break;
 	    }
 	}
-    }	
+    }
     
     /**
      * Busca registros por un campo específico.
@@ -167,17 +162,13 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      *         correcta.
      */
     public Lista<R> buscaRegistros(C campo, Object valor) {
-	if (!(campo instanceof CampoChanchito)) {
-	    throw new IllegalArgumentException("Campo no válido");
-	}
+	if (!(campo instanceof CampoChanchito))
+	    throw new IllegalArgumentException("Campo inválido.");
 	
 	Lista<R> l = new Lista<>();
-	
-	for (R r : registros) {
-	    if (r != null && r.casa(campo, valor)) {
+	for (R r : registros)
+	    if (r != null && r.casa(campo, valor))
 		l.agregaFinal(r);
-	    }
-	}
 	return l;
     }
 
@@ -203,6 +194,9 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
 	escuchas.elimina(escucha);
     }
 
+    /**
+     * Método auxiliar para alertar a los escuchas de los eventos en los registros.
+     */
     private void alertaEscuchas(EventoBaseDeDatos event, R register, R registro) {
 	for (EscuchaBaseDeDatos<R> s : escuchas)
 	    s.baseDeDatosModificada(event, register, registro);
